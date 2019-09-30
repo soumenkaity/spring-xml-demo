@@ -15,21 +15,17 @@ public class Main
 {
     public static void main( String[] args )
     {
-        // using XmlBeanFactory
-        BeanFactory factory=new XmlBeanFactory(new ClassPathResource("beans.xml"));
-        Movie movie=(Movie)factory.getBean("movie");
-        System.out.println(movie);
-
-        //Using BeanDefinitionRegistry and BeanDefinitionReader
-        BeanDefinitionRegistry beanDefinitionRegistry=new DefaultListableBeanFactory();
-        BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanDefinitionRegistry);
-        beanDefinitionReader.loadBeanDefinitions(new ClassPathResource("beans.xml"));
-        Movie movie1= ((DefaultListableBeanFactory)beanDefinitionRegistry).getBean(Movie.class);
-        System.out.println(movie1);
-
         // using ApplicationContext
         ApplicationContext context= new ClassPathXmlApplicationContext("beans.xml");
-        Movie movie2=(Movie)context.getBean("movie");
-        System.out.println(movie2);
+        Movie movie1=context.getBean("movie",Movie.class);
+        System.out.println("Movie Details : "+movie1);
+
+        Movie moviea = context.getBean("moviea", Movie.class);
+        Movie movieb = context.getBean("movieb", Movie.class);
+        System.out.println("For default/singleton scope, (moviea==movieb) : "+(moviea==movieb));
+
+        Movie movieA = context.getBean("movieA", Movie.class);
+        Movie movieB = context.getBean("movieB", Movie.class);
+        System.out.println("For prototype scope, (movieA==movieB) : "+(movieA==movieB));
     }
 }
